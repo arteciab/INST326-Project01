@@ -94,3 +94,68 @@ def save_analysis_report(text: str, out_directory: str, filename: str = "report.
     
     target.write_text(text, encoding="utf-8")
     return str(target)
+
+# 5) import pandas as pd
+from pandas.api.types import is_integer_dtype, is_float_dtype, is_string_dtype
+
+def validate_data_sources_min(
+    dataframes_by_name: dict[str, pd.DataFrame],
+    validation_rules: dict
+) -> dict:
+    """
+    Validate tables (schema/types/PK/refs). Returns {'passed': bool, 'errors': [...]}.
+    """
+    errors: list[str] = []
+
+    # Per-table: required columns, coarse dtypes, primary key duplicates
+    for table_name, table_rules in validation_rules.get("tables", {}).items():
+        if table_name not in dataframes_by_name:
+            errors.append(f"[{table_name}] missing DataFrame")
+            continue
+
+        table_df = dataframes_by_name[table_name]
+
+        for required_col in table_rules.get("required", []):
+            if required_col not in table_df.columns:
+                errors.append(f"[{table_name}] missing column '{required_col}'")
+
+        # Expected types (int / float / string / date)
+        for col_name, expected_type in table_rules.get("types", {}).items():
+            if col_name not in table_df.columns:
+                continue
+            col = table_df[col_name]
+            is_ok = (
+                (expected_type == "int"    and is_integer_dtype(col)) or
+                (expected_type == "float"  and (is_float_dtype(col) or is_integer_dtype(col))) or
+                (expected_type == "string" and is_string_dtype(col)) or
+                (expected_type == "date"   and pd.to_datetime(col, errors="coerce").notna().all())
+            )
+            if not is_ok:
+                errors.append(f"[{table_name}] '{col_name}' type != {expected_type}")
+
+        # Primary key uniqueness
+        primary_key = table_rules.get("pk", [])
+        if primary_key and set(primary_key).issubset(table_df.columns):
+            duplicate_count = table_df.duplicated(subset=primary_key).sum()
+            if duplicate_count:
+                errors.append(f"[{table_name}] {duplicate_count} duplicate PK rows {primary_key}")
+
+    # Referential integrity: child column values must exist in parent column
+    for relation in validation_rules.get("refs", []):
+        child_table_name       = relation["child"]
+        child_key_column       = relation["child_key"]
+        parent_table_name      = relation["parent"]
+        parent_key_column      = relation["parent_key"]
+
+        if child_table_name in dataframes_by_name and parent_table_name in dataframes_by_name:
+            child_values  = set(dataframes_by_name[child_table_name][child_key_column].dropna())
+            parent_values = set(dataframes_by_name[parent_table_name][parent_key_column].dropna())
+            missing_values = child_values - parent_values
+            if missing_values:
+                errors.append(
+                    f"[ref] {child_table_name}.{child_key_column} has {len(missing_values)} "
+                    f"value(s) not found in {parent_table_name}.{parent_key_column}"
+                )
+
+    return {"passed": not errors, "errors": errors}
+
