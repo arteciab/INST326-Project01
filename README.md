@@ -34,6 +34,36 @@ Without organized tools, this information can be hard to manage and analyze.
 
 Our goal was to create a **simple, well-structured Python function library** to help process racing data.  
 It supports loading data, validating it, performing analytics, and producing formatted summaries that will be expanded into full classes in future projects.
+Collaboration and Version Control
+
+Each team member worked on their own module in separate branches.
+
+Commits included clear messages describing the changes.
+
+Pull requests were used for merging, with peer review required first.
+
+Code followed PEP 8 style guidelines and used consistent docstring formatting.
+
+Each member implemented 3–5 functions and reviewed at least one teammate’s code.
+
+AI Collaboration
+
+AI tools were used responsibly to help with:
+
+Formatting docstrings
+
+Debugging syntax and logic errors
+
+Suggesting improvements to code clarity
+
+All AI-assisted code was reviewed, tested, and modified by the team to ensure full understanding and accuracy.
+
+Future Work
+
+In Project 02, this library will be converted into an object-oriented design.
+We’ll create classes such as Race, Driver, and Team, where these current functions become methods.
+We also plan to expand analytics, reporting, and visualization features.
+
 
 ---
 
@@ -95,34 +125,3 @@ print(f"Report saved to: {save_path}")
 | **Analytics**     | `calculate_average_finish`, `validate_driver_rows`                            | Perform calculations and data validation.            |
 | **Reporting**     | `format_comparison_output`, `generate_driver_profile`, `save_analysis_report` | Create summaries, comparisons, and markdown reports. |
 | **Utilities**     | Functions in `utils.py`                                                       | Shared helper functions used across modules.         |
-
-Collaboration and Version Control
-
-Each team member worked on their own module in separate branches.
-
-Commits included clear messages describing the changes.
-
-Pull requests were used for merging, with peer review required first.
-
-Code followed PEP 8 style guidelines and used consistent docstring formatting.
-
-Each member implemented 3–5 functions and reviewed at least one teammate’s code.
-
-AI Collaboration
-
-AI tools were used responsibly to help with:
-
-Formatting docstrings
-
-Debugging syntax and logic errors
-
-Suggesting improvements to code clarity
-
-All AI-assisted code was reviewed, tested, and modified by the team to ensure full understanding and accuracy.
-
-Future Work
-
-In Project 02, this library will be converted into an object-oriented design.
-We’ll create classes such as Race, Driver, and Team, where these current functions become methods.
-We also plan to expand analytics, reporting, and visualization features.
-
