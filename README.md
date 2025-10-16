@@ -13,7 +13,7 @@ This project is a Python function library built to support **racing analytics**.
 It includes tools for loading, validating, analyzing, and reporting on race and driver data.
 
 These functions were designed as **reusable components** that can later become class methods in Project 02.  
-Together, they make it easier to manage motorsport data — including race results, driver performance, and team comparisons — in a clean, structured way.
+Together, they make it easier to manage motorsport data, including race results, driver performance, and team comparisons, in a clean, structured way.
 
 ---
 
