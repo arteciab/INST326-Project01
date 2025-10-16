@@ -29,7 +29,7 @@ Together, they make it easier to manage motorsport data, including race results,
 
 ## Domain Focus and Problem Statement
 
-Racing events produce large amounts of data — driver names, lap times, race dates, team results, and more.  
+Racing events produce large amounts of data, driver names, lap times, race dates, team results, and more.  
 Without organized tools, this information can be hard to manage and analyze.
 
 Our goal was to create a **simple, well-structured Python function library** to help process racing data.  
