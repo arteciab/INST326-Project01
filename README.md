@@ -100,7 +100,7 @@ README.md
 requirements.txt
 
 from src.racing_library import load_race_data, sort_races_by_date, filter_by_team
-from src.analytics import calculate_average_finish
+from src.analytics import calculate_average_finish_from_file
 from src.reporting import format_comparison_output, save_analysis_report
 
 races = load_race_data("data/races.csv")
@@ -108,7 +108,7 @@ sorted_races = sort_races_by_date(races)
 
 ferrari_results = filter_by_team(sorted_races, "Ferrari")
 
-avg_time = calculate_average_finish("data/finish_times.txt")
+avg_time = calculate_average_finish_from_file("data/finish_times.txt")
 print(f"Average Finish Time: {avg_time:.2f}")
 
 driver1 = {"name": "Driver A", "starts": 10, "podiums": 4, "best_finish": 1, "finishes": [1, 4, 2]}
