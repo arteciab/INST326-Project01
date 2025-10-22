@@ -1,24 +1,24 @@
+from datetime import date
+import pytest
+
 from src.racing_library import (
     load_race_data,
-    validate_driver_data,
+    validate_driver_record,   # <- was validate_driver_data
     search_driver_results,
     filter_by_team,
-    sort_races_by_date
+    sort_races_by_date,
 )
-from datetime import date
 
 
-def test_validate_driver_data_valid():
+def test_validate_driver_record_valid():
     record = {"driver": "Lewis Hamilton", "team": "Mercedes"}
-    assert validate_driver_data(record) is True
+    assert validate_driver_record(record) is True
 
 
-def test_validate_driver_data_missing_field():
+def test_validate_driver_record_missing_field():
     record = {"driver": "Max Verstappen"}
-    try:
-        validate_driver_data(record)
-    except ValueError:
-        assert True
+    with pytest.raises(ValueError):
+        validate_driver_record(record)
 
 
 def test_search_driver_results():
