@@ -69,7 +69,6 @@ We also plan to expand analytics, reporting, and visualization features.
 
 ## Installation and Setup
 
-Clone the repository and set up your environment:
 
 ```bash
 git clone https://github.com/arteciab/INST326-Project01.git
