@@ -111,15 +111,21 @@ from src.datastore import RaceDataStore
 
 store = RaceDataStore()
 count = store.load_race_data("data/races_artecia.csv")
-
 print("Loaded rows:", count)
 
+print("\nAll Races (Newest First):")
 for race in store.sort_races_by_date(ascending=False):
-    print(race.race_id, race.driver.name, race.team)
+    print(f"{race.race_id}: {race.driver.name} - {race.team}")
 
+print("\nDriver Profiles Created:")
+for driver in store.list_driver_profiles():
+    print(driver)
+
+print("\nSearch Results for 'Dale Earnhardt':")
 results = store.search_driver_results("Dale Earnhardt")
 for r in results:
-    print(r.race_id, r.driver.name, r.team)
+    print(f"{r.race_id}: {r.driver.name} - {r.team}")
+
 
 ## Future Work
 Next, we plan to make new versions of our classes for different types of races and add simple charts to show driver and team results.
