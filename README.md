@@ -1,19 +1,19 @@
-# Project 01 – Racing Analytics Function Library
+# Project 02 – Racing Analytics OOP System
 
 **Course:** INST 326 – Object-Oriented Programming  
 **Professor:** Dempy  
-**Due Date:** October 12, 2025  
+**Due Date:** November 2, 2025  
 **Team Repository:** (https://github.com/arteciab/INST326-Project01)
 
 ---
 
 ## Project Overview
 
-This project is a Python function library built to support **racing analytics**.  
-It includes tools for loading, validating, analyzing, and reporting on race and driver data.
+This project expands on our Project 1 function library by turning it into a full **object-oriented system** for racing analytics.  
+We used Python classes to handle racing data, including races, drivers, and teams, with encapsulation, validation, and documentation built in.  
 
-These functions were designed as **reusable components** that can later become class methods in Project 02.  
-Together, they make it easier to manage motorsport data, including race results, driver performance, and team comparisons, in a clean, structured way.
+The goal was to make a program that’s organized, easy to update, and realistic to how motorsport analytics systems actually work.  
+The project now supports both the team’s shared dataset and an optional NASCAR dataset for more authentic examples.
 
 ---
 
@@ -21,54 +21,52 @@ Together, they make it easier to manage motorsport data, including race results,
 
 | Name | Role | Focus Area |
 |------|------|-------------|
-| **Artecia** | Racing Library | Managing race and driver data |
-| **Mory** | Analytics Library | Calculations and data validation |
-| **Kevin** | Reporting Library | Summaries, comparisons, and saving reports |
+| **Artecia Brown** | Core Data & Retrieval Developer | Data access, organization, and validation |
+| **Mory Camara** | Analytics & Testing Developer | Data analysis, performance comparison, and trend detection |
+| **Kevin Morales** | Reporting & Integration Developer | Data formatting, visualization prep, and documentation |
+
+---
+
+### Team Contributions
+
+- **Artecia Brown:** Built the `RaceDataStore` class to load, check, and organize racing data. Added an optional dataset (`data/races_artecia.csv`) with real NASCAR drivers like **Rajah Caruth**, **Leland Honeyman Jr.**, and **Dale Earnhardt** to make examples feel more realistic.  
+  The code automatically detects that file if it exists but still works with the team’s main dataset (`data/races.csv`) without any extra setup.  
+
+- **Mory Camara:** Created the analytics and performance comparison tools, including average finish calculations, team points, and podium statistics. Also wrote tests to make sure analytics functions run accurately and efficiently.  
+
+- **Kevin Morales:** Focused on reporting and integration, building methods to format results, generate driver summaries, and create example outputs for documentation. Combined all modules into a working end-to-end system.  
 
 ---
 
 ## Domain Focus and Problem Statement
 
-Racing events produce large amounts of data, driver names, lap times, race dates, team results, and more.  
-Without organized tools, this information can be hard to manage and analyze.
+Racing events create huge amounts of data — race IDs, driver names, lap times, race dates, teams, and more.  
+Without structure, that data is hard to search through or analyze.
 
-Our goal was to create a **simple, well-structured Python function library** to help process racing data.  
-It supports loading data, validating it, performing analytics, and producing formatted summaries that will be expanded into full classes in future projects.
-Collaboration and Version Control
+Our system fixes that by giving users an organized way to load and compare race data.  
+It supports searching by driver or team, sorting results by date, and summarizing overall performance trends.  
+Using real NASCAR drivers made the final outputs feel closer to real-world use cases.
 
-Each team member worked on their own module in separate branches.
+---
 
-Commits included clear messages describing the changes.
+## Collaboration and Version Control
 
-Pull requests were used for merging, with peer review required first.
+- Each team member worked on their own branch and merged through pull requests.  
+- All code was reviewed before merging to keep the repo stable.  
+- Commits used short, clear messages.  
+- Followed PEP 8 style for consistency and readability.  
+- Each teammate implemented 3–5 methods and reviewed one peer’s work.  
 
-Code followed PEP 8 style guidelines and used consistent docstring formatting.
+---
 
-Each member implemented 3–5 functions and reviewed at least one teammate’s code.
+## AI Collaboration
 
-AI Collaboration
-
-AI tools were used responsibly to help with:
-
-Formatting docstrings
-
-Debugging syntax and logic errors
-
-Suggesting improvements to code clarity
-
-All AI-assisted code was reviewed, tested, and modified by the team to ensure full understanding and accuracy.
-
-Future Work
-
-In Project 02, this library will be converted into an object-oriented design.
-We’ll create classes such as Race, Driver, and Team, where these current functions become methods.
-We also plan to expand analytics, reporting, and visualization features.
+AI tools were used for Formatting, debugging, and syntax checks. All Final code was reviewed amd rewritte by the team.
 
 
 ---
 
 ## Installation and Setup
-
 
 ```bash
 git clone https://github.com/arteciab/INST326-Project01.git
@@ -80,6 +78,7 @@ venv\Scripts\activate      # Windows
 
 pip install -r requirements.txt
 
+## File Structure
 docs/
 ├── function_reference.md
 └── usage_examples.md
@@ -90,37 +89,49 @@ examples/
 src/
 ├── __init__.py
 ├── analytics.py
-├── racing_library.py
+├── datastore.py
 ├── reporting.py
 └── utils.py
 
+data/
+├── races.csv
+└── races_artecia.csv   ← optional NASCAR dataset
+
 tests/
+├── test_datastore.py
+└── other test files...
+
+test_my_class.py
 .gitignore
 README.md
 requirements.txt
 
-from src.racing_library import load_race_data, sort_races_by_date, filter_by_team
-from src.analytics import calculate_average_finish_from_file
-from src.reporting import format_comparison_output, save_analysis_report
+## Usage Example
+from src.datastore import RaceDataStore
 
-races = load_race_data("data/races.csv")
-sorted_races = sort_races_by_date(races)
+store = RaceDataStore()
+count = store.load_race_data("data/races_artecia.csv")
+print("Loaded rows:", count)
 
-ferrari_results = filter_by_team(sorted_races, "Ferrari")
+print("\nAll Races (Newest First):")
+for race in store.sort_races_by_date(ascending=False):
+    print(f"{race.race_id}: {race.driver.name} - {race.team}")
 
-avg_time = calculate_average_finish_from_file("data/finish_times.txt")
-print(f"Average Finish Time: {avg_time:.2f}")
+print("\nDriver Profiles Created:")
+for driver in store.list_driver_profiles():
+    print(driver)
 
-driver1 = {"name": "Driver A", "starts": 10, "podiums": 4, "best_finish": 1, "finishes": [1, 4, 2]}
-driver2 = {"name": "Driver B", "starts": 9, "podiums": 3, "best_finish": 2, "finishes": [2, 3, "DNF"]}
+print("\nSearch Results for 'Dale Earnhardt':")
+results = store.search_driver_results("Dale Earnhardt")
+for r in results:
+    print(f"{r.race_id}: {r.driver.name} - {r.team}")
 
-report_text = format_comparison_output(driver1, driver2)
-save_path = save_analysis_report(report_text, "reports", "driver_comparison.md")
-print(f"Report saved to: {save_path}")
 
-| Category          | Example Functions                                                             | Description                                          |
-| ----------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------- |
-| **Data Handling** | `load_race_data`, `sort_races_by_date`, `filter_by_team`                      | Load, clean, and organize race and driver records.   |
-| **Analytics**     | `calculate_average_finish`, `validate_driver_rows`                            | Perform calculations and data validation.            |
-| **Reporting**     | `format_comparison_output`, `generate_driver_profile`, `save_analysis_report` | Create summaries, comparisons, and markdown reports. |
-| **Utilities**     | Functions in `utils.py`                                                       | Shared helper functions used across modules.         |
+## Future Work
+Next, we plan to make new versions of our classes for different types of races and add simple charts to show driver and team results.
+
+## Credits
+Team: Artecia Brown, Mory Camara, Kevin Morales  
+University of Maryland – College of Information Studies, Fall 2025
+
+
