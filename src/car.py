@@ -119,3 +119,24 @@ class Car:
         if not self.__results:
             return None
         return min(self.__results, key=lambda r: r.lap_time)
+
+    def __str__(self) -> str:
+        """Return a readable summary of the car."""
+        driver_name = getattr(self.__driver, "name", None)
+        driver_display = driver_name if driver_name is not None else str(self.__driver)
+        return (
+            f"{self.__model_year} {self.__team} "
+            f"({self.__engine_maker}) - Driver: {driver_display}"
+        )
+
+    def __repr__(self) -> str:
+        """Return a detailed string representation for debugging."""
+        return (
+            "Car("
+            f"model_year={self.__model_year!r}, "
+            f"team={self.__team!r}, "
+            f"engine_maker={self.__engine_maker!r}, "
+            f"driver={self.__driver!r}, "
+            f"results={self.__results!r}"
+            ")"
+        )
