@@ -80,11 +80,12 @@ pip install -r requirements.txt
 ```
 
 ## File Structure
+
+```text
 docs/
 ├── function_reference.md
 ├── usage_examples.md
 └── class_design.md
-
 
 examples/
 └── demo_script.py
@@ -98,14 +99,12 @@ src/
 
 data/
 ├── races.csv
-└── races_artecia.csv  
+└── races_artecia.csv
 
 tests/
 ├── test_datastore.py
-└── other test files...
-
-The file 'races_artecia.csv' includes optional NASCAR driver data.
-
+├── test_driver_link.py
+└── test_racing_library.py
 
 test_my_class.py
 .gitignore
@@ -136,7 +135,6 @@ results = store.search_driver_results("Dale Earnhardt")
 for r in results:
     print(f"{r.race_id}: {r.driver.name} - {r.team}")
 
-# New OOP components added for Project 02
 analytics = RaceAnalytics(store)
 report = ReportBuilder(store)
 
@@ -148,7 +146,6 @@ print(report.driver_summary("Dale Earnhardt"))
 
 print("\nTeam Summary:")
 print(report.team_summary("JR Motorsports"))
-```
 
 ## Future Work
 Next, we plan to make new versions of our classes for different types of races and add simple charts to show driver and team results.
