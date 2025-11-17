@@ -1,6 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
 from typing import Iterable
+from .datastore import RaceDataStore
 
 
 def load_finish_times(path: str | Path) -> list[float]:
@@ -175,3 +176,37 @@ def sort_rows_by_race_date(rows: list[dict], descending: bool = False) -> list[d
         enriched.append((dt, row))
     enriched.sort(key=lambda t: t[0], reverse=bool(descending))
     return [row for _, row in enriched]
+
+class RaceAnalytics:
+    """Analytics operations over a RaceDataStore."""
+
+    def __init__(self, datastore: RaceDataStore):
+        if datastore is None:
+            raise ValueError("datastore cannot be None")
+        self._datastore = datastore
+
+    @property
+    def datastore(self) -> RaceDataStore:
+        return self._datastore
+
+    def average_finish_for_driver(self, name_or_id: str) -> float:
+        results = self._datastore.search_driver_results(name_or_id)
+        positions = [r.position for r in results if r.position is not None]
+        if not positions:
+            return 0.0
+        return sum(positions) / len(positions)
+
+    def total_points_for_driver(self, name_or_id: str) -> float:
+        results = self._datastore.search_driver_results(name_or_id)
+        return sum(r.points for r in results)
+
+    def total_points_for_team(self, team: str) -> float:
+        results = self._datastore.filter_by_team(team)
+        return sum(r.points for r in results)
+
+    def __str__(self) -> str:
+        return f"RaceAnalytics(results={len(self._datastore.results)})"
+
+    def __repr__(self) -> str:
+        return f"RaceAnalytics(datastore={repr(self._datastore)})"
+

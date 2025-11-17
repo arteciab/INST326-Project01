@@ -61,7 +61,7 @@ Using real NASCAR drivers made the final outputs feel closer to real-world use c
 
 ## AI Collaboration
 
-AI tools were used for Formatting, debugging, and syntax checks. All Final code was reviewed amd rewritte by the team.
+AI tools were used for formatting, debugging, and syntax checks. All final code was reviewed and rewritten by the team.
 
 
 ---
@@ -77,11 +77,14 @@ source venv/bin/activate   # macOS / Linux
 venv\Scripts\activate      # Windows
 
 pip install -r requirements.txt
+```
 
 ## File Structure
 docs/
 ├── function_reference.md
-└── usage_examples.md
+├── usage_examples.md
+└── class_design.md
+
 
 examples/
 └── demo_script.py
@@ -95,11 +98,14 @@ src/
 
 data/
 ├── races.csv
-└── races_artecia.csv   ← optional NASCAR dataset
+└── races_artecia.csv  
 
 tests/
 ├── test_datastore.py
 └── other test files...
+
+The file 'races_artecia.csv' includes optional NASCAR driver data.
+
 
 test_my_class.py
 .gitignore
@@ -107,7 +113,11 @@ README.md
 requirements.txt
 
 ## Usage Example
+
+```python
 from src.datastore import RaceDataStore
+from src.analytics import RaceAnalytics
+from src.reporting import ReportBuilder
 
 store = RaceDataStore()
 count = store.load_race_data("data/races_artecia.csv")
@@ -126,6 +136,19 @@ results = store.search_driver_results("Dale Earnhardt")
 for r in results:
     print(f"{r.race_id}: {r.driver.name} - {r.team}")
 
+# New OOP components added for Project 02
+analytics = RaceAnalytics(store)
+report = ReportBuilder(store)
+
+print("\nAverage Finish for Dale Earnhardt:")
+print(analytics.average_finish_for_driver("Dale Earnhardt"))
+
+print("\nDriver Summary:")
+print(report.driver_summary("Dale Earnhardt"))
+
+print("\nTeam Summary:")
+print(report.team_summary("JR Motorsports"))
+```
 
 ## Future Work
 Next, we plan to make new versions of our classes for different types of races and add simple charts to show driver and team results.

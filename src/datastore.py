@@ -120,3 +120,15 @@ class RaceDataStore:
 
     def sort_races_by_date(self, ascending: bool = True):
         return sorted(self._results, key=lambda x: x.date, reverse=not ascending)
+
+    def list_driver_profiles(self) -> List[Driver]:
+        """Return a list of unique Driver profiles from the loaded results."""
+        profiles_by_id: Dict[str, Driver] = {}
+
+        for result in self._results:
+            d = result.driver
+            # use driver_id as the key so we don't duplicate the same driver
+            if d.driver_id not in profiles_by_id:
+                profiles_by_id[d.driver_id] = d
+
+        return list(profiles_by_id.values())

@@ -2,6 +2,9 @@
 from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from .datastore import RaceDataStore
+from .analytics import RaceAnalytics
+
 
 
 def format_race_summary(
@@ -148,3 +151,55 @@ def save_analysis_report(text: str, out_directory: str, filename: str = "report.
 
     target.write_text(text, encoding="utf-8")
     return str(target)
+
+class ReportBuilder:
+    """Generate formatted text reports from a RaceDataStore."""
+
+    def __init__(self, datastore: RaceDataStore):
+        if datastore is None:
+            raise ValueError("datastore cannot be None")
+        self._datastore = datastore
+        self._analytics = RaceAnalytics(datastore)
+
+    @property
+    def datastore(self) -> RaceDataStore:
+        return self._datastore
+
+    @property
+    def analytics(self) -> RaceAnalytics:
+        return self._analytics
+
+    def driver_summary(self, name_or_id: str) -> str:
+        results = self._datastore.search_driver_results(name_or_id)
+        if not results:
+            return f"No results found for {name_or_id}."
+        driver = results[0].driver
+        avg_finish = self._analytics.average_finish_for_driver(name_or_id)
+        total_points = self._analytics.total_points_for_driver(name_or_id)
+        race_count = len(results)
+        return (
+            f"Driver: {driver.name}\n"
+            f"Team: {driver.team}\n"
+            f"Races Recorded: {race_count}\n"
+            f"Average Finish: {avg_finish:.2f}\n"
+            f"Total Points: {total_points:.2f}\n"
+        )
+
+    def team_summary(self, team: str) -> str:
+        results = self._datastore.filter_by_team(team)
+        if not results:
+            return f"No results found for team {team}."
+        total_points = self._analytics.total_points_for_team(team)
+        race_count = len(results)
+        return (
+            f"Team: {team}\n"
+            f"Races Recorded: {race_count}\n"
+            f"Total Points: {total_points:.2f}\n"
+        )
+
+    def __str__(self) -> str:
+        return f"ReportBuilder(results={len(self._datastore.results)})"
+
+    def __repr__(self) -> str:
+        return f"ReportBuilder(datastore={repr(self._datastore)})"
+
