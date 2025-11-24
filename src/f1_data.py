@@ -1,5 +1,4 @@
-
-from abstract_race_data import AbstractRaceData
+from src.abstract_race_data import AbstractRaceData
 
 class F1Data(AbstractRaceData):
     """
