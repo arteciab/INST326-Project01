@@ -154,4 +154,18 @@ Next, we plan to make new versions of our classes for different types of races a
 Team: Artecia Brown, Mory Camara, Kevin Morales  
 University of Maryland – College of Information Studies, Fall 2025
 
+## Project 3 feature explanations
+
+AbstractRaceData serves as the base class for all race types. It defines the shared attributes, race name and number of laps, and provides an abstract method compute_performance_score() that each subclass must implement. This ensures every race type follows the same structure while still allowing each one to define its own scoring logic.
+
+Subclasses include:
+
+NASCARData
+
+F1Data
+
+IndyCarData
+
+All subclasses implement the same method, compute_performance_score(), but each one calculates the score differently. This allows the same method call to produce different results depending on the object’s race type.
+
 
