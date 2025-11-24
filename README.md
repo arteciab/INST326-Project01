@@ -1,171 +1,178 @@
-# Project 02 – Racing Analytics OOP System
+---
 
-**Course:** INST 326 – Object-Oriented Programming  
-**Professor:** Dempy  
-**Due Date:** November 2, 2025  
-**Team Repository:** (https://github.com/arteciab/INST326-Project01)
+# **Checkered Data – Racing Analytics System**
+
+INST 326: Object Oriented Programming
+Professor Dempy
+Team Repository: [https://github.com/arteciab/INST326-Project01](https://github.com/arteciab/INST326-Project01)
 
 ---
 
-## Project Overview
+## **Overview**
 
-This project expands on our Project 1 function library by turning it into a full **object-oriented system** for racing analytics.  
-We used Python classes to handle racing data, including races, drivers, and teams, with encapsulation, validation, and documentation built in.  
-
-The goal was to make a program that’s organized, easy to update, and realistic to how motorsport analytics systems actually work.  
-The project now supports both the team’s shared dataset and an optional NASCAR dataset for more authentic examples.
+Checkered Data is a full racing analytics system that we have been building across four major projects. Each project was built on the last one. We started with basic functions, transitioned into an organized class system, added advanced object-oriented features, and then prepared for our final integration work for Project 4. Everything is structured, clean, and designed to feel realistic for motorsport analytics.
 
 ---
 
-## Team Members and Roles
+## **Team Members and Roles**
 
-| Name | Role | Focus Area |
-|------|------|-------------|
-| **Artecia Brown** | Core Data & Retrieval Developer | Data access, organization, and validation |
-| **Mory Camara** | Analytics & Testing Developer | Data analysis, performance comparison, and trend detection |
-| **Kevin Morales** | Reporting & Integration Developer | Data formatting, visualization prep, and documentation |
-
----
-
-### Team Contributions
-
-- **Artecia Brown:** Built the `RaceDataStore` class to load, check, and organize racing data. Added an optional dataset (`data/races_artecia.csv`) with real NASCAR drivers like **Rajah Caruth**, **Leland Honeyman Jr.**, and **Dale Earnhardt** to make examples feel more realistic.  
-  The code automatically detects that file if it exists but still works with the team’s main dataset (`data/races.csv`) without any extra setup.  
-
-- **Mory Camara:** Created the analytics and performance comparison tools, including average finish calculations, team points, and podium statistics. Also wrote tests to make sure analytics functions run accurately and efficiently.  
-
-- **Kevin Morales:** Focused on reporting and integration, building methods to format results, generate driver summaries, and create example outputs for documentation. Combined all modules into a working end-to-end system.  
+| Name              | Role                       | Focus Area                                          |
+| ----------------- | -------------------------- | --------------------------------------------------- |
+| **Artecia Brown** | Core Data and Architecture | Base class design, data validation, retrieval logic |
+| **Mory Camara**   | Analytics and Testing      | Scoring logic, composition features, test scripts   |
+| **Kevin Morales** | Reporting and Polymorphism | Subclass behavior, formatting, documentation        |
 
 ---
 
-## Domain Focus and Problem Statement
+# **Project 1: Racing Analytics Function Library**
 
-Racing events create huge amounts of data — race IDs, driver names, lap times, race dates, teams, and more.  
-Without structure, that data is hard to search through or analyze.
+Project 1 was our starting point. We created a set of reusable functions that handled:
 
-Our system fixes that by giving users an organized way to load and compare race data.  
-It supports searching by driver or team, sorting results by date, and summarizing overall performance trends.  
-Using real NASCAR drivers made the final outputs feel closer to real-world use cases.
+* loading race and driver data
+* validating records
+* sorting and filtering
+* calculating averages and comparisons
+* creating basic summaries
 
----
-
-## Collaboration and Version Control
-
-- Each team member worked on their own branch and merged through pull requests.  
-- All code was reviewed before merging to keep the repo stable.  
-- Commits used short, clear messages.  
-- Followed PEP 8 style for consistency and readability.  
-- Each teammate implemented 3–5 methods and reviewed one peer’s work.  
+The point of this phase was to build a simple and clean functional library that we could later turn into full classes.
 
 ---
 
-## AI Collaboration
+# **Project 2: Core Object-Oriented System**
 
-AI tools were used for formatting, debugging, and syntax checks. All final code was reviewed and rewritten by the team.
+Project 2 converted our entire function library into a class-based system.
 
+We created:
+
+* `RaceDataStore` for organizing and loading race data
+* `RaceAnalytics` for calculations and statistics
+* `ReportBuilder` for formatted summaries
+
+We also added an optional NASCAR dataset (`races_artecia.csv`) that includes real drivers like Rajah Caruth, Dale Earnhardt, and Leland Honeyman Jr. Our system works with either dataset without any extra setup.
+
+Each teammate took their section from Project 1 and rebuilt it as a class with properties, validation, string methods, and documentation.
 
 ---
 
-## Installation and Setup
+# **Project 3: Inheritance, Polymorphism, and Composition**
 
-```bash
-git clone https://github.com/arteciab/INST326-Project01.git
-cd INST326-Project01
+This phase introduced advanced object-oriented programming.
 
-python -m venv venv
-source venv/bin/activate   # macOS / Linux
-venv\Scripts\activate      # Windows
+---
 
-pip install -r requirements.txt
+## **Base Class Created by Artecia**
+
+### `AbstractRaceData`
+
+Defines the structure for all race types:
+
+* race name
+* number of laps
+
+Requires each subclass to implement:
+
+* `compute_performance_score()`
+
+This keeps the system consistent and makes sure all race types follow the same basic rules.
+
+---
+
+## **Subclass Designs Created by Artecia and Kevin**
+
+We built three race types that all inherit from the same parent class:
+
+* **NASCARData**: score is laps times 1.2
+* **F1Data**: score is laps times 2.5
+* **IndyCarData**: score is laps times 1.8
+
+All subclasses use the same method name, but they calculate the score differently. This demonstrates polymorphism.
+
+---
+
+## **Composition System Created by Mory**
+
+### `RaceManager`
+
+Handles storing and managing a group of race objects.
+
+It can:
+
+* store multiple race types
+* add races
+* list scores
+* calculate a combined score
+
+This shows a has a relationship and completes the advanced object oriented requirements.
+
+---
+
+# **Project 4: Final Integration and System Polish (Upcoming)**
+
+Project 4 is due next month. This phase has not been completed yet.
+Our plan for Project 4 includes:
+
+* restructuring and polishing the full system
+* adding higher-level tests
+* improving documentation and diagrams
+* integrating optional reporting and visualization upgrades
+* preparing the final version of Checkered Data for submission
+
+Projects 1 through 3 provide the foundation for this work.
+
+---
+
+# **Current Project Structure**
+
 ```
-
-## File Structure
-
-```text
-docs/
-├── function_reference.md
-├── usage_examples.md
-└── class_design.md
-
-examples/
-└── demo_script.py
-
 src/
-├── __init__.py
-├── analytics.py
-├── datastore.py
-├── reporting.py
-└── utils.py
+├── abstract_race_data.py
+├── nascar_data.py
+├── f1_data.py
+├── indycar_data.py
+└── race_manager.py
+
+tests/
+├── test_inheritance_local.py
+├── polymorphism_test.py
+└── manager_test.py
 
 data/
 ├── races.csv
 └── races_artecia.csv
+```
 
-tests/
-├── test_datastore.py
-├── test_driver_link.py
-└── test_racing_library.py
+---
 
-test_my_class.py
-.gitignore
-README.md
-requirements.txt
+# **How to Run Tests**
 
-## Usage Example
+```
+python tests/test_inheritance_local.py
+python tests/polymorphism_test.py
+python tests/manager_test.py
+```
 
-```python
-from src.datastore import RaceDataStore
-from src.analytics import RaceAnalytics
-from src.reporting import ReportBuilder
+All current tests pass and confirm:
 
-store = RaceDataStore()
-count = store.load_race_data("data/races_artecia.csv")
-print("Loaded rows:", count)
+* inheritance works
+* subclasses override the required method
+* Polymorphism behaves correctly
+* Composition through the RaceManager works as expected
 
-print("\nAll Races (Newest First):")
-for race in store.sort_races_by_date(ascending=False):
-    print(f"{race.race_id}: {race.driver.name} - {race.team}")
+---
 
-print("\nDriver Profiles Created:")
-for driver in store.list_driver_profiles():
-    print(driver)
+# **Future Feature Ideas**
 
-print("\nSearch Results for 'Dale Earnhardt':")
-results = store.search_driver_results("Dale Earnhardt")
-for r in results:
-    print(f"{r.race_id}: {r.driver.name} - {r.team}")
+* more race subclasses
+* improved scoring and ranking models
+* visuals and charts
+* dashboards or UI tools
+* larger datasets and real-world motorsport data
 
-analytics = RaceAnalytics(store)
-report = ReportBuilder(store)
+---
 
-print("\nAverage Finish for Dale Earnhardt:")
-print(analytics.average_finish_for_driver("Dale Earnhardt"))
+# **Credits**
 
-print("\nDriver Summary:")
-print(report.driver_summary("Dale Earnhardt"))
+Team: Artecia Brown, Mory Camara, Kevin Morales
+University of Maryland, College of Information Studies
 
-print("\nTeam Summary:")
-print(report.team_summary("JR Motorsports"))
-
-## Future Work
-Next, we plan to make new versions of our classes for different types of races and add simple charts to show driver and team results.
-
-## Credits
-Team: Artecia Brown, Mory Camara, Kevin Morales  
-University of Maryland – College of Information Studies, Fall 2025
-
-## Project 3 feature explanations
-
-AbstractRaceData serves as the base class for all race types. It defines the shared attributes, race name and number of laps, and provides an abstract method compute_performance_score() that each subclass must implement. This ensures every race type follows the same structure while still allowing each one to define its own scoring logic.
-
-Subclasses include:
-
-NASCARData
-
-F1Data
-
-IndyCarData
-
-All subclasses implement the same method, compute_performance_score(), but each one calculates the score differently. This allows the same method call to produce different results depending on the object’s race type.
-
-
+---
