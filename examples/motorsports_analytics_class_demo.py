@@ -1,4 +1,4 @@
-from src.car_anylitics_class import MotorsportAnalytics
+from src.car_analytics_class import MotorsportAnalytics
 
 tool = MotorsportAnalytics("data/races.csv")
 
