@@ -106,21 +106,6 @@ This shows a has a relationship and completes the advanced object oriented requi
 
 ---
 
-# **Project 4: Final Integration and System Polish (Upcoming)**
-
-Project 4 is due next month. This phase has not been completed yet.
-Our plan for Project 4 includes:
-
-* restructuring and polishing the full system
-* adding higher-level tests
-* improving documentation and diagrams
-* integrating optional reporting and visualization upgrades
-* preparing the final version of Checkered Data for submission
-
-Projects 1 through 3 provide the foundation for this work.
-
----
-
 # **Current Project Structure**
 
 ```
