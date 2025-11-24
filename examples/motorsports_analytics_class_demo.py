@@ -1,8 +1,4 @@
 from src.car_anylitics_class import MotorsportAnalytics
-from pathlib import Path
-import sys, os
-
-
 
 tool = MotorsportAnalytics("data/races.csv")
 
@@ -20,4 +16,3 @@ print(tool.driver_circuits("Alice"))
 
 print(tool.races_timeline())
 # [('2024-01-20', 'Monaco'), ('2024-02-01', 'Bahrain'), ('2024-03-10', 'Melbourne')]
-
