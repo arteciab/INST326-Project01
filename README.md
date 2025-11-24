@@ -1,4 +1,4 @@
----
+
 
 # **Checkered Data – Racing Analytics System**
 
@@ -175,4 +175,3 @@ All current tests pass and confirm:
 Team: Artecia Brown, Mory Camara, Kevin Morales
 University of Maryland, College of Information Studies
 
----
