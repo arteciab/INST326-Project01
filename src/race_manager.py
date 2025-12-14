@@ -54,6 +54,17 @@ class RaceManager:
         }
 
     def save_state(self, path: str | Path) -> None:
+        """
+    Save the current system state to a JSON file.
+
+    This includes all loaded race objects and their persisted attributes.
+
+    Args:
+        path (str | Path): File path where the system state will be saved.
+
+    Raises:
+        RuntimeError: If the file cannot be written due to an I/O error.
+        """
         path = Path(path)
         try:
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -64,6 +75,22 @@ class RaceManager:
 
     @classmethod
     def load_state(cls, path):
+        """
+    Load a previously saved system state from a JSON file.
+
+    This method reconstructs all race objects and restores them
+    into a new RaceManager instance.
+
+    Args:
+        path (str | Path): File path of the saved system state.
+
+    Returns:
+        RaceManager: A RaceManager instance populated with restored races.
+
+    Raises:
+        RuntimeError: If the file is missing, unreadable, or contains invalid JSON.
+        ValueError: If an unknown race type is encountered in the saved state.
+        """
         path = Path(path)
 
         try:
