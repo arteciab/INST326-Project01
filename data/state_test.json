@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "races": [
+    {
+      "type": "NASCARData",
+      "race_name": "Charlotte",
+      "laps": 150
+    }
+  ]
+}
