@@ -25,3 +25,16 @@ class AbstractRaceData(ABC):
         This method must be overridden by each subclass.
         """
         pass
+
+    def to_dict(self) -> dict:
+        return {
+            "type": self.__class__.__name__.replace("Data", "").upper(),
+            "race_name": self._race_name,
+            "laps": self._laps,
+        }
+    
+    @classmethod
+    def from_dict(cls, data: dict):
+        obj = cls.__new__(cls)
+        obj._laps = data["laps"]
+        return obj
