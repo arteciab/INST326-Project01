@@ -1,3 +1,6 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from pathlib import Path
 from src.datastore import RaceDataStore
 
@@ -17,5 +20,5 @@ def test_load_and_sort():
 def test_search_and_filter_do_not_crash():
     store = RaceDataStore()
     store.load_race_data(_pick())
-    _ = store.search_driver_results("Rajah Caruth")
-    _ = store.filter_by_team("Hendrick Motorsports")
+    store.search_driver_results("Rajah Caruth")
+    store.filter_by_team("Hendrick Motorsports")
