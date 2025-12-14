@@ -32,35 +32,35 @@ Project 4 completed the system through full integration, persistence, and testin
 ## Project Structure
 INST326-Project01/
 ├── src/
-│ ├── abstract_race_data.py
-│ ├── nascar_data.py
-│ ├── f1_data.py
-│ ├── indycar_data.py
-│ ├── race_manager.py
-│ ├── persistence.py
-│ ├── data_importer.py
-│ ├── datastore.py
-│ ├── racing_library.py
-│ ├── analytics.py
-│ └── reporting.py
+│   ├── abstract_race_data.py
+│   ├── nascar_data.py
+│   ├── f1_data.py
+│   ├── indycar_data.py
+│   ├── race_manager.py
+│   ├── persistence.py
+│   ├── data_importer.py
+│   ├── datastore.py
+│   ├── racing_library.py
+│   ├── analytics.py
+│   └── reporting.py
 │
 ├── tests/
-│ ├── test_inheritance_local.py
-│ ├── polymorphism_test.py
-│ ├── manager_test.py
-│ ├── test_datastore.py
-│ ├── test_driver_link.py
-│ ├── test_racing_library.py
-│ ├── test_integration_persistence.py
-│ ├── test_integration_workflows.py
-│ └── test_system_end_to_end.py
+│   ├── test_inheritance_local.py
+│   ├── polymorphism_test.py
+│   ├── manager_test.py
+│   ├── test_datastore.py
+│   ├── test_driver_link.py
+│   ├── test_racing_library.py
+│   ├── test_integration_persistence.py
+│   ├── test_integration_workflows.py
+│   └── test_system_end_to_end.py
 │
 ├── data/
-│ ├── races.csv
-│ └── races_artecia.csv
+│   ├── races.csv
+│   └── races_artecia.csv
 │
 ├── examples/
-│ └── demo_script.py
+│   └── demo_script.py
 │
 ├── README.md
 ├── requirements.txt
