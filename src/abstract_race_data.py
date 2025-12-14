@@ -27,6 +27,13 @@ class AbstractRaceData(ABC):
         pass
 
     def to_dict(self) -> dict:
+        """
+    Serialize this race object into a dictionary suitable for JSON storage.
+
+    Returns:
+        dict: A JSON-serializable dictionary containing the race type,
+              race name, and number of laps.
+        """
         return {
             "type": self.__class__.__name__.replace("Data", "").upper(),
             "race_name": self._race_name,
@@ -35,6 +42,15 @@ class AbstractRaceData(ABC):
     
     @classmethod
     def from_dict(cls, data: dict):
+        """
+    Reconstruct a race object from a serialized dictionary.
+
+    Args:
+        data (dict): Dictionary containing persisted race data.
+
+    Returns:
+        AbstractRaceData: A reconstructed race object with attributes restored.
+        """
         obj = cls.__new__(cls)
         obj._laps = data["laps"]
         return obj
