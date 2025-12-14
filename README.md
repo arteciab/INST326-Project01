@@ -30,6 +30,7 @@ Project 3 introduced advanced object-oriented concepts. An abstract base class, 
 Project 4 completed the system through full integration, persistence, and testing. The RaceManager supports saving and loading application state using JSON through to_dict, from_dict, save_to_file, and load_from_file. Integration tests confirm that race objects are reconstructed correctly and that scoring remains accurate after reload. System tests validate complete end-to-end workflows, including saving state, restarting the system, and continuing analysis without data loss. File operations handle missing files and invalid data safely.
 
 ## Project Structure
+<pre>
 INST326-Project01/
 ├── src/
 │   ├── abstract_race_data.py
@@ -43,7 +44,7 @@ INST326-Project01/
 │   ├── racing_library.py
 │   ├── analytics.py
 │   └── reporting.py
-│
+
 ├── tests/
 │   ├── test_inheritance_local.py
 │   ├── polymorphism_test.py
@@ -54,18 +55,18 @@ INST326-Project01/
 │   ├── test_integration_persistence.py
 │   ├── test_integration_workflows.py
 │   └── test_system_end_to_end.py
-│
+
 ├── data/
 │   ├── races.csv
 │   └── races_artecia.csv
-│
+
 ├── examples/
 │   └── demo_script.py
-│
+
 ├── README.md
 ├── requirements.txt
 └── .gitignore
-
+</pre>
 
 ## Testing
 Testing spans Projects 2 through 4 and includes unit, integration, and system tests. Project 2 tests verify data loading, validation, searching, filtering, and sorting. Project 3 tests confirm inheritance structure, method overriding, polymorphic behavior, and composition through RaceManager. Project 4 tests confirm persistence, correct reconstruction of subclasses, score consistency, and full end-to-end workflows across restarts. All tests currently pass, confirming the system is stable.
