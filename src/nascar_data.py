@@ -1,4 +1,4 @@
-from abstract_race_data import AbstractRaceData
+from src.abstract_race_data import AbstractRaceData
 
 class NASCARData(AbstractRaceData):
     """
