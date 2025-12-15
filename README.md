@@ -3,6 +3,7 @@
 INST 326: Object-Oriented Programming  
 Professor Dempy  
 Team Repository: https://github.com/arteciab/INST326-Project01
+Presentation Link: https://youtu.be/LlQMqZEhukY
 
 ## Overview
 Checkered Data is a racing analytics system developed across four course projects. Each project builds directly on the previous one. We started with a standalone function library, transitioned into an object-oriented class system, added inheritance and polymorphism, and finalized the system with full integration, persistence, and testing. The final system is structured, maintainable, and designed to mirror real-world motorsport analytics workflows.
