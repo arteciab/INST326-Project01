@@ -17,6 +17,11 @@ Focus: scoring logic, composition features, integration, and system testing
 Kevin Morales – Persistence and Integration  
 Focus: save and load functionality, workflow integration, documentation  
 
+**Note on Git Contributions**  
+Due to local Git configuration differences, some commits appear under multiple usernames.  
+Kevin Morales appears as `bevinborales` and `Kevin Morales`.  
+Mory Camara appears as `MoryGit6` and `b0tMory`.
+
 ## Project 1: Racing Analytics Function Library
 Project 1 established the foundation of the system. We created a reusable function library responsible for loading race and driver data, validating records, sorting and filtering results, calculating averages and comparisons, and generating basic summaries. These functions were intentionally written cleanly and modularly so they could later be converted into class methods.
 
@@ -69,10 +74,18 @@ INST326-Project01/
 </pre>
 
 ## Testing
+
 Testing spans Projects 2 through 4 and includes unit, integration, and system tests. Project 2 tests verify data loading, validation, searching, filtering, and sorting. Project 3 tests confirm inheritance structure, method overriding, polymorphic behavior, and composition through RaceManager. Project 4 tests confirm persistence, correct reconstruction of subclasses, score consistency, and full end-to-end workflows across restarts. All tests currently pass, confirming the system is stable.
 
+## Running and Testing the Project
+
+To run the test suite locally:
+
+```bash
+python -m pytest
+```
+
 ## Credits
-Team: Artecia Brown, Mory Camara, Kevin Morales  
+
+Team: Artecia Brown, Mory Camara, Kevin Morales
 University of Maryland, College of Information Studies
-
-
