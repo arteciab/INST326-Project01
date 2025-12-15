@@ -1,92 +1,162 @@
-"""
-Demo script showing data export capabilities.
-"""
+import csv
+import json
+from pathlib import Path
+import xml.etree.ElementTree as ET
 
-import sys
-sys.path.append('../src')
 
-from data_exporter import DataExporter
-from data_importer import DataImporter
+class DataExporter:
+    @staticmethod
+    def export_races_csv(races, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
 
-def main():
-    print("=" * 60)
-    print("Racing Data Export Demo")
-    print("=" * 60)
-    
-    # 1. Create sample data
-    sample_races = [
-        {'race_id': 'R001', 'name': 'Monaco GP', 'date': '2024-05-26', 'location': 'Monaco'},
-        {'race_id': 'R002', 'name': 'Spanish GP', 'date': '2024-06-23', 'location': 'Barcelona'},
-        {'race_id': 'R003', 'name': 'Canadian GP', 'date': '2024-06-09', 'location': 'Montreal'}
-    ]
-    
-    sample_drivers = [
-        {'driver_id': 'D001', 'name': 'Max Verstappen', 'team': 'Red Bull Racing', 'number': 1},
-        {'driver_id': 'D002', 'name': 'Lewis Hamilton', 'team': 'Mercedes', 'number': 44}
-    ]
-    
-    sample_results = [
-        {'race_id': 'R001', 'driver_id': 'D001', 'position': 1, 'points': 25},
-        {'race_id': 'R001', 'driver_id': 'D002', 'position': 2, 'points': 18},
-        {'race_id': 'R002', 'driver_id': 'D001', 'position': 1, 'points': 25},
-        {'race_id': 'R002', 'driver_id': 'D002', 'position': 3, 'points': 15}
-    ]
-    
-    # 2. Export to different formats
-    print("\n1. Exporting races to CSV...")
-    count = DataExporter.export_races_csv(sample_races, '../data/output/races_export.csv')
-    print(f"   ✓ Exported {count} races to CSV")
-    
-    print("\n2. Exporting drivers to JSON...")
-    count = DataExporter.export_drivers_json(sample_drivers, '../data/output/drivers_export.json')
-    print(f"   ✓ Exported {count} drivers to JSON")
-    
-    print("\n3. Exporting races to XML...")
-    count = DataExporter.export_races_xml(sample_races, '../data/output/races_export.xml')
-    print(f"   ✓ Exported {count} races to XML")
-    
-    print("\n4. Exporting results to CSV...")
-    count = DataExporter.export_results_csv(sample_results, '../data/output/results_export.csv')
-    print(f"   ✓ Exported {count} results to CSV")
-    
-    # 3. Generate reports
-    print("\n5. Generating race summary report...")
-    DataExporter.export_race_summary_report(
-        sample_races[0], 
-        [r for r in sample_results if r['race_id'] == 'R001'],
-        '../data/output/monaco_report.txt'
-    )
-    print("   ✓ Generated race summary report")
-    
-    print("\n6. Generating driver statistics report...")
-    driver_results = [r for r in sample_results if r['driver_id'] == 'D001']
-    DataExporter.export_driver_statistics_report(
-        sample_drivers[0],
-        driver_results,
-        '../data/output/driver_stats.txt'
-    )
-    print("   ✓ Generated driver statistics report")
-    
-    print("\n7. Generating championship standings report...")
-    DataExporter.export_season_standings_report(
-        sample_drivers,
-        sample_results,
-        '../data/output/championship_standings.txt'
-    )
-    print("   ✓ Generated championship standings report")
-    
-    # 4. Auto-export (format detection)
-    print("\n8. Using auto-export with format detection...")
-    DataExporter.auto_export(sample_races, '../data/output/auto_races.csv', 'races')
-    DataExporter.auto_export(sample_drivers, '../data/output/auto_drivers.json', 'drivers')
-    print("   ✓ Auto-exported data with format detection")
-    
-    print("\n" + "=" * 60)
-    print("Export complete! Check the 'data/output/' folder.")
-    print("=" * 60)
+        if not races:
+            path.write_text("", encoding="utf-8")
+            return 0
 
-if __name__ == "__main__":
-    # Create output directory if it doesn't exist
-    import os
-    os.makedirs('../data/output', exist_ok=True)
-    main()
+        fieldnames = list(races[0].keys())
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(races)
+        return len(races)
+
+    @staticmethod
+    def export_results_csv(results, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        if not results:
+            path.write_text("", encoding="utf-8")
+            return 0
+
+        fieldnames = list(results[0].keys())
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(results)
+        return len(results)
+
+    @staticmethod
+    def export_drivers_json(drivers, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(drivers, indent=2), encoding="utf-8")
+        return len(drivers)
+
+    @staticmethod
+    def export_races_json(races, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        payload = {"races": races}
+        path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        return len(races)
+
+    @staticmethod
+    def export_results_json(results, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        payload = {"results": results}
+        path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        return len(results)
+
+    @staticmethod
+    def export_races_xml(races, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        root = ET.Element("races")
+        for r in races:
+            race_el = ET.SubElement(root, "race")
+            for k, v in r.items():
+                child = ET.SubElement(race_el, str(k))
+                child.text = str(v)
+
+        ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
+        return len(races)
+
+    @staticmethod
+    def export_race_summary_report(race, results, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        lines = [
+            "RACE SUMMARY REPORT",
+            "",
+            f"Race Summary: {race.get('name', '')}",
+            f"Race ID: {race.get('race_id', '')}",
+            f"Date: {race.get('date', '')}",
+            f"Location: {race.get('location', '')}",
+            "",
+            "Results:",
+        ]
+        for r in results:
+            lines.append(
+                f"Driver {r.get('driver_id', '')} - Position {r.get('position', '')} - {r.get('points', '')} points"
+            )
+
+        path.write_text("\n".join(lines), encoding="utf-8")
+
+    @staticmethod
+    def export_driver_statistics_report(driver, driver_results, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        total_points = 0
+        for r in driver_results:
+            total_points += int(r.get("points", 0))
+
+        lines = [
+            f"Driver Stats: {driver.get('name', '')}",
+            f"Driver ID: {driver.get('driver_id', '')}",
+            f"Team: {driver.get('team', '')}",
+            f"Total Results: {len(driver_results)}",
+            f"Total Points: {total_points}",
+        ]
+        path.write_text("\n".join(lines), encoding="utf-8")
+
+    @staticmethod
+    def export_season_standings_report(drivers, results, file_path: str):
+        path = Path(file_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        points_by_driver = {}
+        for r in results:
+            did = r.get("driver_id")
+            points_by_driver[did] = points_by_driver.get(did, 0) + int(r.get("points", 0))
+
+        lines = ["Championship Standings:"]
+        for d in drivers:
+            did = d.get("driver_id")
+            lines.append(f"{d.get('name', '')} ({did}) - {points_by_driver.get(did, 0)} pts")
+
+        path.write_text("\n".join(lines), encoding="utf-8")
+
+    @staticmethod
+    def auto_export(data, file_path: str, data_type: str):
+        ext = Path(file_path).suffix.lower()
+
+        if ext == ".csv":
+            if data_type == "races":
+                return DataExporter.export_races_csv(data, file_path)
+            if data_type == "results":
+                return DataExporter.export_results_csv(data, file_path)
+            raise ValueError("Unsupported CSV export type")
+
+        if ext == ".json":
+            if data_type == "races":
+                return DataExporter.export_races_json(data, file_path)
+            if data_type == "results":
+                return DataExporter.export_results_json(data, file_path)
+            if data_type == "drivers":
+                return DataExporter.export_drivers_json(data, file_path)
+            raise ValueError("Unsupported JSON export type")
+
+        if ext == ".xml":
+            if data_type == "races":
+                return DataExporter.export_races_xml(data, file_path)
+            raise ValueError("Unsupported XML export type")
+
+        raise ValueError("Unsupported export format")
