@@ -1,25 +1,25 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from datetime import date
 import pytest
 
 from src.racing_library import (
     load_race_data,
-    validate_driver_record,   # <- was validate_driver_data
+    validate_driver_record,
     search_driver_results,
     filter_by_team,
     sort_races_by_date,
 )
 
-
 def test_validate_driver_record_valid():
     record = {"driver": "Lewis Hamilton", "team": "Mercedes"}
     assert validate_driver_record(record) is True
-
 
 def test_validate_driver_record_missing_field():
     record = {"driver": "Max Verstappen"}
     with pytest.raises(ValueError):
         validate_driver_record(record)
-
 
 def test_search_driver_results():
     data = [
@@ -30,7 +30,6 @@ def test_search_driver_results():
     assert len(results) == 1
     assert results[0]["team"] == "McLaren"
 
-
 def test_filter_by_team():
     data = [
         {"driver": "Lewis Hamilton", "team": "Mercedes"},
@@ -39,7 +38,6 @@ def test_filter_by_team():
     ]
     mercedes_drivers = filter_by_team(data, "Mercedes")
     assert len(mercedes_drivers) == 2
-
 
 def test_sort_races_by_date():
     data = [
