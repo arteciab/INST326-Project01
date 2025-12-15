@@ -1,7 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
 from typing import Iterable
-from .datastore import RaceDataStore
+from datastore import RaceDataStore
 
 
 def load_finish_times(path: str | Path) -> list[float]:

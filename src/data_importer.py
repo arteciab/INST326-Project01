@@ -11,7 +11,7 @@ from pathlib import Path
 
 # Import your existing classes from the same folder
 from car import Car
-from analytics import Analytics
+from analytics import RaceAnalytics
 # Import other classes as needed (Race, Driver, etc.)
 
 
