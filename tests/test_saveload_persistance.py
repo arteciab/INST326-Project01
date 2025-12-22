@@ -14,12 +14,12 @@ class TestSaveLoadPersistence(unittest.TestCase):
     Unit tests for RaceManager save/load persistence functionality.
     """
 
-    def _make_manager_with_races(self):
-        manager = RaceManager()
-        manager.races.append(F1Data("Monaco GP", 78))
-        manager.races.append(NASCARData("Daytona 500", 200))
-        manager.races.append(IndyCarData("Indy 500", 200))
-        return manager
+   def _make_manager_with_races(self):
+    manager = RaceManager()
+    manager.add_race(F1Data("Monaco GP", 78))
+    manager.add_race(NASCARData("Daytona 500", 200))
+    manager.add_race(IndyCarData("Indy 500", 200))
+    return manager
 
     def test_save_and_load_round_trip(self):
         """
@@ -101,3 +101,4 @@ class TestSaveLoadPersistence(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
