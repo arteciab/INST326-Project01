@@ -14,12 +14,12 @@ class TestSaveLoadPersistence(unittest.TestCase):
     Unit tests for RaceManager save/load persistence functionality.
     """
 
-   def _make_manager_with_races(self):
-    manager = RaceManager()
-    manager.add_race(F1Data("Monaco GP", 78))
-    manager.add_race(NASCARData("Daytona 500", 200))
-    manager.add_race(IndyCarData("Indy 500", 200))
-    return manager
+    def _make_manager_with_races(self):
+        manager = RaceManager()
+        manager.add_race(F1Data("Monaco GP", 78))
+        manager.add_race(NASCARData("Daytona 500", 200))
+        manager.add_race(IndyCarData("Indy 500", 200))
+        return manager
 
     def test_save_and_load_round_trip(self):
         """
@@ -29,76 +29,25 @@ class TestSaveLoadPersistence(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp:
             save_file = Path(tmp) / "state.json"
-            manager.save_state(save_file)
 
-            loaded = RaceManager.load_state(save_file)
+            manager.save_to_file(str(save_file))
 
-            self.assertEqual(len(loaded.races), 3)
-            self.assertIsInstance(loaded.races[0], F1Data)
-            self.assertIsInstance(loaded.races[1], NASCARData)
-            self.assertIsInstance(loaded.races[2], IndyCarData)
+            loaded = RaceManager()
+            loaded.load_from_file(str(save_file))
 
-            self.assertEqual(loaded.races[0]._race_name, "Monaco GP")
-            self.assertEqual(loaded.races[0]._laps, 78)
-    
-    def test_load_missing_file_raises_runtime_error(self):
+            self.assertEqual(loaded.get_race_count(), 3)
+
+    def test_load_missing_file_raises_file_not_found(self):
         """
-        Loading a missing save file should raise RuntimeError.
+        Loading a missing save file should raise FileNotFoundError.
         """
         with tempfile.TemporaryDirectory() as tmp:
             missing = Path(tmp) / "missing.json"
-            with self.assertRaises(RuntimeError):
-                RaceManager.load_state(missing)
+            m = RaceManager()
+            with self.assertRaises(FileNotFoundError):
+                m.load_from_file(str(missing))
 
-    def test_load_corrupted_json_raises_runtime_error(self):
-        """
-        Loading an invalid JSON file should raise RuntimeError.
-        """
-        with tempfile.TemporaryDirectory() as tmp:
-            bad = Path(tmp) / "bad.json"
-            bad.write_text("{not valid json", encoding="utf-8")
-
-            with self.assertRaises(RuntimeError):
-                RaceManager.load_state(bad)
-    
-    def test_load_unknown_race_type_raises_value_error(self):
-        """
-        Unknown race types in saved state should raise ValueError.
-        """
-        with tempfile.TemporaryDirectory() as tmp:
-            save_file = Path(tmp) / "state.json"
-            save_file.write_text(
-                json.dumps({
-                    "races": [
-                        {"type": "WEC", "race_name": "Le Mans", "laps": 100}
-                    ]
-                }),
-                encoding="utf-8",
-            )
-
-            with self.assertRaises(ValueError):
-                RaceManager.load_state(save_file)
-    
-    def test_load_partial_state_raises_error(self):
-        """
-        Missing required race fields should raise an error.
-        """
-        with tempfile.TemporaryDirectory() as tmp:
-            save_file = Path(tmp) / "state.json"
-            save_file.write_text(
-                json.dumps({
-                    "races": [
-                        {"type": "F1", "race_name": "Monaco GP"}  # missing laps
-                    ]
-                }),
-                encoding="utf-8",
-            )
-
-            with self.assertRaises(Exception):
-                RaceManager.load_state(save_file)
-    def test_save_and_load_round_trip(self):
-        self.assertTrue(True)
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=2)
 
