@@ -22,9 +22,6 @@ class TestSaveLoadPersistence(unittest.TestCase):
         return manager
 
     def test_save_and_load_round_trip(self):
-        """
-        Saving and loading state should fully restore race objects.
-        """
         manager = self._make_manager_with_races()
 
         with tempfile.TemporaryDirectory() as tmp:
@@ -37,19 +34,51 @@ class TestSaveLoadPersistence(unittest.TestCase):
 
             self.assertEqual(loaded.get_race_count(), 3)
 
-    def test_load_missing_file_raises_file_not_found(self):
-        """
-        Loading a missing save file should raise FileNotFoundError.
-        """
+    def test_load_missing_file_raises_runtime_error(self):
         with tempfile.TemporaryDirectory() as tmp:
             missing = Path(tmp) / "missing.json"
-            m = RaceManager()
-            with self.assertRaises(FileNotFoundError):
-                m.load_from_file(str(missing))
+            with self.assertRaises(RuntimeError):
+                RaceManager.load_state(missing)
+
+    def test_load_corrupted_json_raises_runtime_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bad = Path(tmp) / "bad.json"
+            bad.write_text("{not valid json", encoding="utf-8")
+
+            with self.assertRaises(RuntimeError):
+                RaceManager.load_state(bad)
+
+    def test_load_unknown_race_type_raises_value_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            save_file = Path(tmp) / "state.json"
+            save_file.write_text(
+                json.dumps({
+                    "races": [
+                        {"type": "WEC", "race_name": "Le Mans", "laps": 100}
+                    ]
+                }),
+                encoding="utf-8",
+            )
+
+            with self.assertRaises(ValueError):
+                RaceManager.load_state(save_file)
+
+    def test_load_partial_state_raises_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            save_file = Path(tmp) / "state.json"
+            save_file.write_text(
+                json.dumps({
+                    "races": [
+                        {"type": "F1", "race_name": "Monaco GP"}
+                    ]
+                }),
+                encoding="utf-8",
+            )
+
+            with self.assertRaises(Exception):
+                RaceManager.load_state(save_file)
 
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
-
-
 
