@@ -54,8 +54,8 @@ INST326-Project01/
 
 ├── tests/
 │   ├── test_inheritance_local.py
-│   ├── polymorphism_test.py
-│   ├── manager_test.py
+│   ├── test_polymorphism.py
+│   ├── test_manager.py
 │   ├── test_datastore.py
 │   ├── test_driver_link.py
 │   ├── test_racing_library.py
