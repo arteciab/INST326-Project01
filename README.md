@@ -77,15 +77,13 @@ INST326-Project01/
 
 ## Testing
 
-Testing spans Projects 2 through 4 and includes unit, integration, and system tests. Project 2 tests verify data loading, validation, searching, filtering, and sorting. Project 3 tests confirm inheritance structure, method overriding, polymorphic behavior, and composition through RaceManager. Project 4 tests confirm persistence, correct reconstruction of subclasses, score consistency, and full end-to-end workflows across restarts. All tests currently pass, confirming the system is stable.
+This project uses Python's built-in unittest framework.
 
-## Running and Testing the Project
+To run the full test suite:
 
-To run the test suite locally:
+python -m unittest discover -s tests -p "test*.py" -v
 
-```bash
-python -m pytest
-```
+All unit, integration, and system tests must pass.
 
 ## Credits
 
